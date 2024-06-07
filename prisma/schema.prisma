@@ -1,5 +1,5 @@
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -8,7 +8,35 @@ datasource db {
 }
 
 model User {
-  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  name  String
-  email String @unique
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  nome           String
+  email          String   @unique
+  tipo           Role
+  idEstudante    String?  @db.ObjectId
+  cpf            String   @unique
+  telefone1      String
+  telefone2      String?
+  telefone3      String?
+  dataNascimento DateTime
+  endereco       Endereco?
+
+  @@index([idEstudante])
+}
+
+model Endereco {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  logradouro  String
+  complemento String
+  numero      Int
+  cep         String
+  userId      String @unique @db.ObjectId
+
+  user        User   @relation(fields: [userId], references: [id])
+}
+
+enum Role {
+  student
+  guardian
+  teacher
+  admin
 }

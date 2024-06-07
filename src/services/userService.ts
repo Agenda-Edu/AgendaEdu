@@ -1,18 +1,10 @@
 import { User } from "@prisma/client";
-import UserRepository from "../repositories/userRepository";
+import userRepository from "../repositories/userRepository";
+import { User as IUser } from '../interfaces/User';
 
 class UserService {
-    private userRepository: UserRepository;
-
-    constructor() {
-        this.userRepository = new UserRepository();
-    }
-
-    async createUser(user: User): Promise<User | string> {
-        
-        return this.userRepository.createUser(user);
-    }
+  async createUser(user: IUser): Promise<User | string> {
+    return userRepository.createUser(user);
+  }
 }
-
-export default UserService;
-
+export default new UserService();
