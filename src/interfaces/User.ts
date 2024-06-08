@@ -13,10 +13,10 @@ export interface User {
   telefone2?: string;
   telefone3?: string;
   dataNascimento: Date;
-  endereco?: Endereco;
+  endereco?: Adress;
 }
 
-export interface Endereco {
+export interface Adress {
   id?: string;
   logradouro: string;
   complemento: string;

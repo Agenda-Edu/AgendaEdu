@@ -18,12 +18,12 @@ model User {
   telefone2      String?
   telefone3      String?
   dataNascimento DateTime
-  endereco       Endereco?
+  endereco       Adress?
 
   @@index([idEstudante])
 }
 
-model Endereco {
+model Adress {
   id          String @id @default(auto()) @map("_id") @db.ObjectId
   logradouro  String
   complemento String
