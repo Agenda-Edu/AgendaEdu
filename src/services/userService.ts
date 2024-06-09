@@ -3,7 +3,14 @@ import { User as IUser } from '../interfaces/User';
 
 class UserService {
     async createUser(user: IUser) {
-        return userRepository.createUser(user);
+        try {
+            const createdUser = await userRepository.createUser(user);
+            console.log("Service Student: ", createdUser);
+            return createdUser;
+        } catch (error) {
+            console.error("Service Error: ", error);
+            throw error;
+        }
     }
 
     async getUsers() {

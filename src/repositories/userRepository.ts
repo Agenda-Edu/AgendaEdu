@@ -2,7 +2,6 @@ import { PrismaClient, User } from '@prisma/client';
 import { User as IUser } from "../interfaces/User";
 
 const prisma = new PrismaClient();
-
 class UserRepository {
     async createUser(data: IUser): Promise<IUser> {
         const user = await prisma.user.create({
@@ -14,15 +13,17 @@ class UserRepository {
                     create: data.students.map(student => ({
                         id: student.id,
                         name: student.name,
+                        cpf: student.cpf,
                         class: student.class,
-                        guardianIds: student.guardianIds,
+                        turn: student.turn,
+                        //brithDay: student.brithDay,
                     })),
                 } : undefined,
                 cpf: data.cpf,
                 telefone1: data.telefone1,
                 telefone2: data.telefone2,
                 telefone3: data.telefone3,
-                dataNascimento: data.dataNascimento,
+                brithDay: data.brithDay,
                 adress: data.adress ? {
                     create: {
                         logradouro: data.adress.logradouro,
@@ -33,36 +34,24 @@ class UserRepository {
                 } : undefined,
             },
         });
-        return {
-            id: user.id,
-            nome: user.nome,
-            email: user.email,
-            tipo: user.tipo,
-            students: data.students ? data.students.map(student => ({
-                id: student.id,
-                name: student.name,
-                class: student.class,
-                guardianIds: student.guardianIds,
-            })) : undefined,
-            cpf: user.cpf,
-            telefone1: user.telefone1,
-            telefone2: user.telefone2 ?? undefined,
-            telefone3: user.telefone3 ?? undefined,
-            dataNascimento: user.dataNascimento,
-            adress: data.adress ? {
-                logradouro: data.adress.logradouro,
-                complemento: data.adress.complemento,
-                numero: data.adress.numero,
-                cep: data.adress.cep,
-            } : undefined,
-        } as IUser;
+
+        const id = user.id
+
+        const userCreated = await prisma.user.findFirst({
+            where: { id },
+            include: { adress: true, student: true },
+        });
+
+        return userCreated as IUser;
     }
 
     async getUsers(): Promise<IUser[]> {
         const users = await prisma.user.findMany({
-            include: { adress: true, student: true },
+            include: {
+                adress: true,
+                student: true,
+            },
         });
-
         return users.map(user => ({
             id: user.id,
             nome: user.nome,
@@ -71,14 +60,16 @@ class UserRepository {
             students: user.student ? user.student.map(student => ({
                 id: student.id,
                 name: student.name,
+                cpf: student.cpf,
                 class: student.class,
-                guardianIds: student.guardianIds,
+                turn: student.turn,
+                //brithDay: student.brithDay,
             })) : [],
             cpf: user.cpf,
             telefone1: user.telefone1,
             telefone2: user.telefone2 ?? undefined,
             telefone3: user.telefone3 ?? undefined,
-            dataNascimento: user.dataNascimento,
+            brithDay: user.brithDay,
             adress: user.adress ? {
                 logradouro: user.adress.logradouro,
                 complemento: user.adress.complemento,
@@ -115,7 +106,7 @@ class UserRepository {
                 telefone1: data.telefone1 || existingUser.telefone1,
                 telefone2: data.telefone2 || existingUser.telefone2,
                 telefone3: data.telefone3 || existingUser.telefone3,
-                dataNascimento: data.dataNascimento || existingUser.dataNascimento,
+                brithDay: data.brithDay || existingUser.brithDay,
                 adress: data.adress ? {
                     update: {
                         logradouro: data.adress.logradouro || existingUser.adress?.logradouro,
@@ -129,8 +120,10 @@ class UserRepository {
                     create: data.students.map(student => ({
                         id: student.id,
                         name: student.name,
+                        cpf: student.cpf,
                         class: student.class,
-                        guardianIds: student.guardianIds,
+                        turn:student.turn,
+                        //brithDay: student.brithDay,
                     })),
                 } : undefined,
             },
@@ -171,5 +164,4 @@ class UserRepository {
         return user;
     }
 }
-
 export default new UserRepository();
