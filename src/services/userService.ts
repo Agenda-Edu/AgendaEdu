@@ -11,7 +11,11 @@ class UserService {
     }
 
     async getUserById(id: string){
-        return userRepository.getUsersById(id);
+        return userRepository.getUserById(id);
+    }
+
+    async updateUser(user: IUser){
+        return userRepository.updateUser(user);
     }
 
     async deleteUser(id: string){
