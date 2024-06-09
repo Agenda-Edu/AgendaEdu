@@ -4,17 +4,14 @@ import { Student } from "@prisma/client";
 
 class StudentService {
     async createStudent(userId: string, studentData: Omit<IStudent, 'id' | 'userId'>): Promise<Student> {
-        console.log("Service")
+        const student = await StudentRepository.createStudent(userId, studentData);
+        return student;
+    }
 
-        try {
-            const student = await StudentRepository.createStudent(userId, studentData);
-            console.log("Service Student: ", student);
-            return student;
-        } catch (error) {
-            console.error("Service Error: ", error);
-            throw error;
-        }
-
+    async getStudents() {
+        console.log("getStudent / try / Service / getStudents")
+        const student = await StudentRepository.getStudents();
+        return student;
     }
 }
 export default new StudentService();

@@ -24,5 +24,19 @@ class StudentRepository {
 
         return student;
     }
+
+    async getStudents(): Promise<IStudent[]> {
+        console.log("getStudent / try / Service / getStudents / Repository / getStudents")
+        const students = await prisma.student.findMany();
+
+        return students.map(student => (
+            {
+                id: student.id,
+                name: student.name,
+                cpf: student.cpf,
+                class: student.class,
+                turn: student.turn,
+            }));
+    }
 }
 export default new StudentRepository();

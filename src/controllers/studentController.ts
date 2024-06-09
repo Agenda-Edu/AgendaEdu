@@ -14,5 +14,16 @@ class StudentController {
             return res.status(400).json({ success: false, message: " Internal Server Error" });
         }
     }
+
+    async getStudent(req: Request, res: Response) {
+        console.log("getStudent")
+        try {
+            const students = await studentService.getStudents();
+            res.json(students);
+        } catch (error) {
+            console.error('Erro ao obter estudantes:', error);
+            res.status(500).json({ message: 'Erro interno do servidor' });
+        }
+    }
 }
 export default new StudentController();

@@ -19,6 +19,7 @@ router.put("/updateUser", UserController.updateUser);
 
 //Students
 router.post("/createStudent", StudentController.createStudent);
+router.get("/listStudents", StudentController.getStudent);
 
 
 export default router;
