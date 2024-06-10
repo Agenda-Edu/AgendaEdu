@@ -3,23 +3,53 @@ import { User as IUser } from '../interfaces/User';
 
 class UserService {
     async createUser(user: IUser) {
-        return userRepository.createUser(user);
+        try {
+            const createdUser = await userRepository.createUser(user)
+            return createdUser;
+        } catch (error) {
+            console.error("Error fetching users:", error);
+            throw error;
+        }
     }
 
     async getUsers() {
-        return userRepository.getUsers();
+        try {
+            const users = await userRepository.getUsers()
+            return users;
+        } catch (error) {
+            console.error("Error fetching users:", error);
+            throw error;
+        }
     }
 
     async getUserById(id: string) {
-        return userRepository.getUserById(id);
+        try {
+            const user = await userRepository.getUserById(id);
+            return user
+        } catch (error) {
+            console.error("Error fetching users:", error);
+            throw error;
+        }
     }
 
     async updateUser(user: IUser) {
-        return userRepository.updateUser(user);
+        try {
+            const updatedUser = await userRepository.updateUser(user)
+            return updatedUser;
+        } catch (error) {
+            console.error("Error fetching users:", error);
+            throw error;
+        }
     }
 
     async deleteUser(id: string) {
-        return userRepository.deleteUser(id);
+        try {
+            const deletedUser = await userRepository.deleteUser(id)
+            return deletedUser;
+        } catch (error) {
+            console.error("Error fetching users:", error);
+            throw error;
+        }
     }
 
 }

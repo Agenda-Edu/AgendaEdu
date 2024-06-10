@@ -41,15 +41,15 @@ class UserController {
         }
     }
 
-    async updateUser(req: Request, res: Response): Promise<Response> {
-        try {
-            const userData: IUser = req.body;
-            const user = await userService.updateUser(userData);
-            return res.status(200).json(user);
-        } catch (error) {
-            return res.status(400).json({ success: false, message: " Internal Server Error" });
-        }
-    }
+    // async updateUser(req: Request, res: Response): Promise<Response> {
+    //     try {
+    //         const userData: IUser = req.body;
+    //         const user = await userService.updateUser(userData);
+    //         return res.status(200).json(user);
+    //     } catch (error) {
+    //         return res.status(400).json({ success: false, message: " Internal Server Error" });
+    //     }
+    // }
 
     async deleteUser(req: Request, res: Response): Promise<Response> {
 
