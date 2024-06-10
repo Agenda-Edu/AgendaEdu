@@ -52,7 +52,7 @@ class UserRepository {
     }
 
     async updateUser(data: IUser): Promise<User | null> {
-        const existingUser = await prisma.user.findUnique({
+        const existingUser = await prisma.user.findFirst({
             where: { id: data.id },
             include: { address: true, student: true },
         });

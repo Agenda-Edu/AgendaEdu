@@ -14,7 +14,7 @@ async function main() {
 
     app.use(router);
     app.listen(port, async () => {
-        console.log(`🚀 Aplicação iniciada na porta: http://127.0.0.1:${port}`);
+        console.log(`🚀 Aplicação iniciada na rota: http://127.0.0.1:${port}`);
         await db.connection();
     })
 }

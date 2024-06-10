@@ -1,6 +1,5 @@
 
 import { prisma } from './db';
-
 class ConnectDB {
 
     async connection() {
