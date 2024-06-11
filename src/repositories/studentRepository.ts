@@ -38,29 +38,27 @@ class StudentRepository {
         return student as IStudent;
     }
 
-    async updateStudent(data: IStudent) {
-        const student = await prisma.student.findFirst({
-            where: { id: data.id }
+    async updateStudent(student: IStudent) {
+        const existStudent = await prisma.student.findFirst({
+            where: { id: student.id }
         })
 
-        if (!student) {
+        if (!existStudent) {
             throw new Error('User not found');
         }
 
-        await prisma.student.update({
-            where: { id: data.id },
+        const updatedStudent = await prisma.student.update({
+            where: { id: student.id },
             data: {
-                name: data.name || student.name,
-                cpf: data.cpf ?? student.cpf,
-                class: data.class || student.class,
-                turn: data.turn || student.turn,
-                brithDay: data.brithDay || student.brithDay,
+                name: student.name || existStudent.name,
+                cpf: student.cpf ?? existStudent.cpf,
+                class: student.class || existStudent.class,
+                turn: student.turn || existStudent.turn,
+                brithDay: student.brithDay || existStudent.brithDay,
             }
         })
 
-        return await prisma.student.findFirst({
-            where: { id: data.id }
-        })
+        return updatedStudent;
     }
 
     async deleteStudent(id: string): Promise<Student> {

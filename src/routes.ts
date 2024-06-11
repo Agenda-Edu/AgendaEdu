@@ -3,6 +3,7 @@
 import { Request, Response, Router } from "express";
 import UserController from '../src/controllers/userController';
 import StudentController from '../src/controllers/studentController';
+import messageController from "./controllers/messageController";
 
 const router = Router();
 
@@ -24,5 +25,10 @@ router.get("/getStudent", StudentController.getStudentById);
 router.put("/updateStudent", StudentController.updateStudent);
 router.delete("/deleteStudant", StudentController.deleteStudent);
 
+//Messages
+router.post("/createMessage", messageController.createMessage);
+router.get("/getMessage", messageController.getMessageById);
+router.put("/updateMessage", messageController.updateMessage);
+router.delete("/deleteMessage", messageController.deleteMessage);
 
 export default router;

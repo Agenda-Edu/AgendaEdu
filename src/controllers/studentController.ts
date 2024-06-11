@@ -44,7 +44,6 @@ class StudentController {
     async updateStudent(req: Request, res: Response) {
         try {
             const studentData: IStudent = req.body;
-            console.log(studentData)
             const students = await studentService.updateStudent(studentData);
             res.json(students);
         } catch (error) {
