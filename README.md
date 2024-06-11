@@ -11,15 +11,13 @@ Este repositório contém uma API desenvolvida para gerenciar uma agenda educati
 
 ## Tecnologias Utilizadas
 
-- ![Node.js](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/220px-Node.js_logo.svg.png): Plataforma para o desenvolvimento do servidor HTTP e das APIs.
-- ![Express.js](https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Expressjs.png/220px-Expressjs.png): Framework para desenvolvimento de aplicações web com Node.js.
-- ![Prisma ORM](https://avatars.githubusercontent.com/u/34112259?s=200&v=4): Ferramenta de ORM para interação com o banco de dados MongoDB.
-- ![MongoDB](https://webassets.mongodb.com/_com_assets/cms/mongodb_logo1-76twgcu2dm.png): Banco de dados NoSQL utilizado para armazenar os dados da aplicação.
-- ![JWT](https://jwt.io/img/pic_logo.svg): Utilizado para autenticação e autorização de usuários.
-- ![bcrypt](https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Bcrypt_logo.svg/220px-Bcrypt_logo.svg.png): Biblioteca para hash de senhas.
-- ![dotenv](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Dotenv_logo.svg/220px-Dotenv_logo.svg.png): Utilizado para carregar variáveis de ambiente a partir de um arquivo `.env`.
-- ![moment.js](https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Moment.js_logo.svg/220px-Moment.js_logo.svg.png): Biblioteca para manipulação de datas e horas.
-- ![TypeScript](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/220px-Typescript_logo_2020.svg.png): Linguagem de programação utilizada para escrever o código-fonte da API.
+- <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/300px-Node.js_logo.svg.png" width="300" height="300">: Plataforma para o desenvolvimento do servidor HTTP e das APIs.
+- <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Expressjs.png/300px-Expressjs.png" width="300" height="300">: Framework para desenvolvimento de aplicações web com Node.js.
+- <img src="https://avatars.githubusercontent.com/u/34112259?s=200&v=4" width="300" height="300">: Ferramenta de ORM para interação com o banco de dados MongoDB.
+- <img src="https://webassets.mongodb.com/_com_assets/cms/mongodb_logo1-76twgcu2dm.png" width="300" height="300">: Banco de dados NoSQL utilizado para armazenar os dados da aplicação.
+- <img src="https://jwt.io/img/pic_logo.svg" width="300" height="300">: Utilizado para autenticação e autorização de usuários.
+- <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Bcrypt_logo.svg/300px-Bcrypt_logo.svg.png" width="300" height="300">: Biblioteca para hash de senhas.
+- <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/300px-Typescript_logo_2020.svg.png" width="300" height="300">: Linguagem de programação utilizada para escrever o código-fonte da API.
 
 ## Arquitetura
 
