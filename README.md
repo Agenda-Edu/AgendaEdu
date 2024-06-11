@@ -11,9 +11,9 @@ Este repositório contém uma API desenvolvida para gerenciar uma agenda educati
 
 ## Tecnologias Utilizadas
 
-- <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/300px-Node.js_logo.svg.png" width="50" height="50">: Plataforma para o desenvolvimento do servidor HTTP e das APIs.
-- <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Expressjs.png/300px-Expressjs.png" width="100" height="50">: Framework para desenvolvimento de aplicações web com Node.js.
-- <img src="https://avatars.githubusercontent.com/u/34112259?s=200&v=4" width="100" height="50">: Ferramenta de ORM para interação com o banco de dados MongoDB.
+- <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/300px-Node.js_logo.svg.png" width="300" height="50">: Plataforma para o desenvolvimento do servidor HTTP e das APIs.
+- <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Expressjs.png/300px-Expressjs.png" width="300" height="50">: Framework para desenvolvimento de aplicações web com Node.js.
+- <img src="https://avatars.githubusercontent.com/u/34112259?s=200&v=4" width="300" height="50">: Ferramenta de ORM para interação com o banco de dados MongoDB.
 - <img src="https://webassets.mongodb.com/_com_assets/cms/mongodb_logo1-76twgcu2dm.png" width="50" height="50">: Banco de dados NoSQL utilizado para armazenar os dados da aplicação.
 - <img src="https://jwt.io/img/pic_logo.svg" width="50" height="50">: Utilizado para autenticação e autorização de usuários.
 - <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/300px-Typescript_logo_2020.svg.png" width="50" height="50">: Linguagem de programação utilizada para escrever o código-fonte da API.
