@@ -1,7 +1,7 @@
 
 
 import { prisma } from '../databse/db';
-import { Message as IMessage } from '../interfaces/Message';
+import { IMessage as IMessage } from '../interfaces/IMessage';
 
 class MessageRepository {
 

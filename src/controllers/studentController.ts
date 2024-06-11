@@ -1,7 +1,7 @@
 
 import { Request, Response } from 'express';
 import studentService from '../services/studentService';
-import { Student as IStudent } from '../interfaces/Student';
+import { IStudent } from '../interfaces/IStudent';
 
 class StudentController {
     async createStudent(req: Request, res: Response): Promise<Response> {

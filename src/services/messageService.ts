@@ -1,5 +1,5 @@
 
-import { Message as IMessage } from '../interfaces/Message';
+import { IMessage as IMessage } from '../interfaces/IMessage';
 import messageRepository from "../repositories/messageRepository";
 
 class MessageService {

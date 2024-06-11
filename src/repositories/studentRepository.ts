@@ -2,7 +2,7 @@
 
 import { Student } from '@prisma/client';
 import { prisma } from '../databse/db';
-import { Student as IStudent } from '../interfaces/Student';
+import { IStudent as IStudent } from '../interfaces/IStudent';
 
 class StudentRepository {
 

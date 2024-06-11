@@ -1,5 +1,5 @@
 import userRepository from "../repositories/userRepository";
-import { User as IUser } from '../interfaces/User';
+import { IUser as IUser } from '../interfaces/IUser';
 
 class UserService {
     async createUser(user: IUser) {

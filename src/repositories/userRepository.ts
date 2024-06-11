@@ -1,6 +1,6 @@
 
 import { PrismaClient, User } from '@prisma/client';
-import { User as IUser } from "../interfaces/User";
+import { IUser as IUser } from "../interfaces/IUser";
 import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();

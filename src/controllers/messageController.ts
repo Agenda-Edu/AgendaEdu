@@ -1,12 +1,12 @@
 
 import { Request, Response } from 'express';
-import { Message as Imessage } from '../interfaces/Message';
+import { IMessage } from '../interfaces/IMessage';
 import messageService from '../services/messageService';
 
 class MessageController {
     async createMessage(req: Request, res: Response): Promise<Response> {
         try {
-            const messageData: Imessage = req.body;
+            const messageData: IMessage = req.body;
             const createdMessage = await messageService.createMessage(messageData);
             return res.status(201).json(createdMessage);
         } catch (error) {
@@ -32,7 +32,7 @@ class MessageController {
 
     async updateMessage(req: Request, res: Response) {
         try {
-            const messageData: Imessage = req.body;
+            const messageData: IMessage = req.body;
             const updatedMessage = await messageService.updateMessage(messageData);
             res.json(updatedMessage);
         } catch (error) {

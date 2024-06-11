@@ -1,5 +1,5 @@
 import StudentRepository from "../repositories/studentRepository";
-import { Student as IStudent } from '../interfaces/Student';
+import { IStudent as IStudent } from '../interfaces/IStudent';
 import { Student } from "@prisma/client";
 
 class StudentService {

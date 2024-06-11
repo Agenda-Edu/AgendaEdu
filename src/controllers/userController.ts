@@ -2,7 +2,7 @@
 
 import { Request, Response } from 'express';
 import userService from '../services/userService';
-import { User as IUser } from "../interfaces/User";
+import { IUser } from "../interfaces/IUser";
 
 class UserController {
 

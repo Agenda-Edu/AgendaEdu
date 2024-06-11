@@ -1,22 +1,37 @@
-import { Request, Response } from 'express';
-import { registerUser, loginUser } from '../services/authService';
-import { User as IUser } from '../interfaces/User';
+import { Request, Response } from "express";
+import 'dotenv/config';
+import jwt from 'jsonwebtoken';
+import { IUser } from "../interfaces/IUser";
+import userService from "../services/userService";
 
-export const register = async (req: Request, res: Response) => {
-  try {
-    const user : IUser= await registerUser(req.body);
-    res.status(201).json(user);
-  } catch (error) {
-    res.status(400).json(error);
-  }
-};
+const SECRET = process.env.SECRET_KEY
+class AuthController {
+    async getToken(req: Request, res: Response) {
 
-export const login = async (req: Request, res: Response) => {
-  try {
-    const { email, password } = req.body;
-    const { token, user } = await loginUser(email, password);
-    res.status(200).json({ token, user });
-  } catch (error) {
-    res.status(400).json(error);
-  }
-};
+        const user: IUser = req.body;
+        const { email, cpf, password } = user
+
+        if (!SECRET || typeof SECRET !== "string") {
+            throw new Error("Necessário passar a chave de segurança")
+        }
+
+        const token = jwt.sign({ email, cpf, password }, SECRET, { expiresIn: '1h' });
+
+        res.json({ token });
+    }
+
+    async createUser(req: Request, res: Response) {
+        const user: IUser = req.body;
+
+        if (!user.name || !user.password || !user.cpf) {
+            return res.status(400).send('Nome de usuário, senha e cpf são necessários.');
+        }
+
+        const newUser = await userService.createUser(user);
+
+        return res.status(201).send('Usuário criado com sucesso.');
+    }
+
+}
+
+export default new AuthController();

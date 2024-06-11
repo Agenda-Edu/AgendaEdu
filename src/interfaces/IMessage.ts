@@ -1,6 +1,6 @@
 import { Role, Subjects } from "@prisma/client";
 
-export interface Message {
+export interface IMessage {
     id: string,
     messageDate: Date,
     title: string,

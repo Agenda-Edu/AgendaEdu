@@ -4,15 +4,14 @@ import { Router } from "express";
 import UserController from '../src/controllers/userController';
 import StudentController from '../src/controllers/studentController';
 import messageController from "./controllers/messageController";
-import { login, register } from "./controllers/authController";
-import { authMiddleware } from './middlewares/authMiddleware';
-import { createUserMiddleware } from "./middlewares/createUserMiddleware";
+import authController from "./controllers/authController";
+import auth from "./middlewares/AuthMiddleware";
 
 const router = Router();
 
-//login
-router.post('/register', createUserMiddleware, register);
-router.post('/login', authMiddleware, login);
+// //login
+ router.post('/getToken',  authController.getToken);
+ router.post('/register', auth, authController.createUser);
 
 // Users
 router.post("/createUser", UserController.createUser);
