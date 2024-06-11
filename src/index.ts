@@ -1,11 +1,11 @@
 import 'dotenv/config'; 
 import express from "express";
-import router from './routes';
 import ConnectDB from './databse/connectDb';
+import router from './routes';
 
 async function main() {
     const app = express();
-    const port = 3030;
+    const PORT = process.env.PORT;
 
 
     app.use(express.json());
@@ -13,9 +13,10 @@ async function main() {
 
     const db = new ConnectDB();    
 
+
     app.use(router);
-    app.listen(port, async () => {
-        console.log(`🚀 Aplicação iniciada na rota: http://127.0.0.1:${port}`);
+    app.listen(PORT, async () => {
+        console.log(`🚀 Aplicação iniciada na rota: http://127.0.0.1:${PORT}`);
         await db.connection();
     })
 }

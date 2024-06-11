@@ -5,13 +5,16 @@ import UserController from '../src/controllers/userController';
 import StudentController from '../src/controllers/studentController';
 import messageController from "./controllers/messageController";
 import authController from "./controllers/authController";
-import auth from "./middlewares/AuthMiddleware";
+import authRegister from "./middlewares/AuthMiddleware";
+import calidateEmail from "./middlewares/ValidateUserMiddlewware";
 
 const router = Router();
 
 // //login
- router.post('/getToken',  authController.getToken);
- router.post('/register', auth, authController.createUser);
+router.post('/getToken', authController.getToken);
+router.post('/register', authRegister, calidateEmail, authController.createUser);
+router.post('/login', authController.login)
+router.post('/logout', authController.logout)
 
 // Users
 router.post("/createUser", UserController.createUser);

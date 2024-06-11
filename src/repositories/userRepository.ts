@@ -56,7 +56,7 @@ class UserRepository {
         });
     }
 
-    async getUserByEmail(email: string): Promise<User | null> {
+    async getUserByEmail(email: string) {
         return await prisma.user.findUnique({
             where: { email },
             include: { address: true, student: true }

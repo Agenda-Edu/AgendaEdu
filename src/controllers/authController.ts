@@ -1,8 +1,9 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
+const bcrypt = require('bcrypt');
 import 'dotenv/config';
-import jwt from 'jsonwebtoken';
+import jwt, { sign } from 'jsonwebtoken';
 import { IUser } from "../interfaces/IUser";
-import userService from "../services/userService";
+import authService from "../services/authService";
 
 const SECRET = process.env.SECRET_KEY
 class AuthController {
@@ -21,15 +22,48 @@ class AuthController {
     }
 
     async createUser(req: Request, res: Response) {
-        const user: IUser = req.body;
+        try {
+            const user: IUser = req.body;
 
-        if (!user.name || !user.password || !user.cpf) {
-            return res.status(400).send('Nome de usuário, senha e cpf são necessários.');
+            if (!user.name || !user.password || !user.cpf) {
+                return res.status(400).send('Nome de usuário, senha e cpf são necessários.');
+            }
+            const newUser = await authService.createUser(user);
+            return res.status(201).json(newUser);
+        } catch (error) {
+            return res.status(400).json({ success: false, message: "Internal Server Error" });
+        }
+    }
+
+    async login(req: Request, res: Response) {
+
+        const { email, password } = req.body;
+
+        const user = await authService.validateUser(email)
+
+        if (!user) {
+            return res.json({ error: "Usuário não encontrado" })
         }
 
-        const newUser = await userService.createUser(user);
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if (!passwordMatch) {
+            return res.json({ error: "Senha incorreta" });
+        }
 
-        return res.status(201).send('Usuário criado com sucesso.');
+        const token = sign({ id: user.id, nome: user.name, email: user.email, role: user.role }, "secret", { expiresIn: "1h" });
+
+        return res.json({ user, token })
+
+    }
+
+    async logout(req: Request, res: Response, next: NextFunction) {
+        try {
+            res.clearCookie("jsonwebtoken");
+            res.clearCookie("refreshtoken");
+            return res.sendStatus(200);
+        } catch (error) {
+            next(error);
+        }
     }
 
 }
