@@ -1,16 +1,21 @@
+
 import { PrismaClient, User } from '@prisma/client';
 import { User as IUser } from "../interfaces/User";
+import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 class UserRepository {
-    async createUser(data: IUser): Promise<IUser> {
+    async createUser(userData: IUser): Promise<IUser> {
+
+        const hashedPassword = await bcrypt.hash(userData.password, 10);
         const user = await prisma.user.create({
             data: {
-                name: data.name,
-                email: data.email,
-                role: data.role,
-                student: data.students ? {
-                    create: data.students.map(student => ({
+                name: userData.name,
+                email: userData.email,
+                password: hashedPassword,
+                role: userData.role,
+                student: userData.students ? {
+                    create: userData.students.map(student => ({
                         id: student.id,
                         name: student.name,
                         cpf: student.cpf,
@@ -19,17 +24,17 @@ class UserRepository {
                         brithDay: student.brithDay
                     })),
                 } : undefined,
-                cpf: data.cpf,
-                telefone1: data.telefone1,
-                telefone2: data.telefone2,
-                telefone3: data.telefone3,
-                brithDay: data.brithDay,
-                address: data.address ? {
+                cpf: userData.cpf,
+                telefone1: userData.telefone1,
+                telefone2: userData.telefone2,
+                telefone3: userData.telefone3,
+                brithDay: userData.brithDay,
+                address: userData.address ? {
                     create: {
-                        address: data.address.address,
-                        complement: data.address.complement,
-                        number: data.address.number,
-                        cep: data.address.cep,
+                        address: userData.address.address,
+                        complement: userData.address.complement,
+                        number: userData.address.number,
+                        cep: userData.address.cep,
                     },
                 } : undefined,
             },
@@ -48,6 +53,20 @@ class UserRepository {
         return await prisma.user.findUnique({
             where: { id },
             include: { address: true, student: true },
+        });
+    }
+
+    async getUserByEmail(email: string): Promise<User | null> {
+        return await prisma.user.findUnique({
+            where: { email },
+            include: { address: true, student: true }
+        });
+    }
+
+    async getUserByCpf(cpf: string): Promise<User | null> {
+        return await prisma.user.findUnique({
+            where: { cpf },
+            include: { address: true, student: true }
         });
     }
 

@@ -32,6 +32,26 @@ class UserService {
         }
     }
 
+    async getUserByEmail(email: string) {
+        try {
+            const user = await userRepository.getUserByEmail(email);;
+            return user
+        } catch (error) {
+            console.error("Error fetching users:", error);
+            throw error;
+        }
+    }
+
+    async getUserByCpf(cpf: string) {
+        try {
+            const user = await userRepository.getUserByCpf(cpf);;
+            return user
+        } catch (error) {
+            console.error("Error fetching users:", error);
+            throw error;
+        }
+    }
+
     async updateUser(user: IUser) {
         try {
             const updatedUser = await userRepository.updateUser(user)

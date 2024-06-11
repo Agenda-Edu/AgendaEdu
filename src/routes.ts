@@ -1,20 +1,23 @@
 // src/routes/userRoutes.ts
 
-import { Request, Response, Router } from "express";
+import { Router } from "express";
 import UserController from '../src/controllers/userController';
 import StudentController from '../src/controllers/studentController';
 import messageController from "./controllers/messageController";
+import { login, register } from "./controllers/authController";
+import { authMiddleware } from './middlewares/authMiddleware';
+import { createUserMiddleware } from "./middlewares/createUserMiddleware";
 
 const router = Router();
 
-router.get("/", (req: Request, res: Response) => {
-    res.status(200).json("🚀 Aplicação iniciada com sucesso!");
-});
+//login
+router.post('/register', createUserMiddleware, register);
+router.post('/login', authMiddleware, login);
 
 // Users
 router.post("/createUser", UserController.createUser);
 router.get("/listUsers", UserController.getUsers);
-router.get("/getUser", UserController.getUserById); 
+router.get("/getUser", UserController.getUserById);
 router.delete("/deleteUser", UserController.deleteUser);
 router.put("/updateUser", UserController.updateUser);
 

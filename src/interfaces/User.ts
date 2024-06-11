@@ -3,14 +3,15 @@ export interface User {
   id?: string;
   name: string;
   email: string;
+  password: string;
   role: Role;
   students?: {
-      id: string;
-      name: string;
-      cpf?: string | null;
-      class: string;
-      turn: string;
-      brithDay: Date;
+    id: string;
+    name: string;
+    cpf?: string | null;
+    class: string;
+    turn: string;
+    brithDay: Date;
   }[];
   cpf: string;
   telefone1: string;
@@ -18,9 +19,9 @@ export interface User {
   telefone3?: string | null;
   brithDay: Date;
   address?: {
-      address: string;
-      complement: string;
-      number: number;
-      cep: string;
+    address: string;
+    complement: string;
+    number: number;
+    cep: string;
   };
 }
