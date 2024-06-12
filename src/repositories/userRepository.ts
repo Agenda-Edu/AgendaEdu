@@ -1,6 +1,6 @@
 
 import { PrismaClient, User } from '@prisma/client';
-import { IUser as IUser } from "../interfaces/IUser";
+import { IUser } from "../interfaces/IUser";
 import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
@@ -148,4 +148,4 @@ class UserRepository {
         return user;
     }
 }
-export default new UserRepository();
+export default UserRepository;

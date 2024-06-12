@@ -1,10 +1,18 @@
-import userRepository from "../repositories/userRepository";
-import { IUser as IUser } from '../interfaces/IUser';
+
+import { IUser } from '../interfaces/IUser';
+import UserRepository from '../repositories/userRepository';
 
 class UserService {
+
+    private userRepository: UserRepository;
+
+    constructor(userRepository: UserRepository) {
+        this.userRepository = userRepository
+    }
+
     async createUser(user: IUser) {
         try {
-            const createdUser = await userRepository.createUser(user)
+            const createdUser = await this.userRepository.createUser(user)
             return createdUser;
         } catch (error) {
             console.error("Error fetching users:", error);
@@ -14,7 +22,7 @@ class UserService {
 
     async getUsers() {
         try {
-            const users = await userRepository.getUsers()
+            const users = await this.userRepository.getUsers()
             return users;
         } catch (error) {
             console.error("Error fetching users:", error);
@@ -24,7 +32,7 @@ class UserService {
 
     async getUserById(id: string) {
         try {
-            const user = await userRepository.getUserById(id);
+            const user = await this.userRepository.getUserById(id);
             return user
         } catch (error) {
             console.error("Error fetching users:", error);
@@ -34,7 +42,7 @@ class UserService {
 
     async getUserByEmail(email: string) {
         try {
-            const user = await userRepository.getUserByEmail(email);;
+            const user = await this.userRepository.getUserByEmail(email);;
             return user
         } catch (error) {
             console.error("Error fetching users:", error);
@@ -44,7 +52,7 @@ class UserService {
 
     async getUserByCpf(cpf: string) {
         try {
-            const user = await userRepository.getUserByCpf(cpf);;
+            const user = await this.userRepository.getUserByCpf(cpf);;
             return user
         } catch (error) {
             console.error("Error fetching users:", error);
@@ -54,7 +62,7 @@ class UserService {
 
     async updateUser(user: IUser) {
         try {
-            const updatedUser = await userRepository.updateUser(user)
+            const updatedUser = await this.userRepository.updateUser(user)
             return updatedUser;
         } catch (error) {
             console.error("Error fetching users:", error);
@@ -64,7 +72,7 @@ class UserService {
 
     async deleteUser(id: string) {
         try {
-            const deletedUser = await userRepository.deleteUser(id)
+            const deletedUser = await this.userRepository.deleteUser(id)
             return deletedUser;
         } catch (error) {
             console.error("Error fetching users:", error);
@@ -72,4 +80,4 @@ class UserService {
         }
     }
 }
-export default new UserService();
+export default UserService;
