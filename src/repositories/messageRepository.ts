@@ -1,8 +1,10 @@
 
 
+import { Service } from 'typedi';
 import { prisma } from '../databse/db';
-import { IMessage as IMessage } from '../interfaces/IMessage';
+import { IMessage } from '../interfaces/IMessage';
 
+@Service()
 class MessageRepository {
 
     async createMessage(messageData: Omit<IMessage, 'id'>): Promise<IMessage> {
@@ -66,7 +68,6 @@ class MessageRepository {
 
         return deletedMessage;
     }
-
 }
 
-export default new MessageRepository();
+export default  MessageRepository;

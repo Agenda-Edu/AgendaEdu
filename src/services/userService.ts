@@ -1,14 +1,12 @@
 
+import { Inject, Service } from 'typedi';
 import { IUser } from '../interfaces/IUser';
 import UserRepository from '../repositories/userRepository';
 
+@Service()
 class UserService {
 
-    private userRepository: UserRepository;
-
-    constructor(userRepository: UserRepository) {
-        this.userRepository = userRepository
-    }
+    constructor(@Inject(() => UserRepository) private userRepository: UserRepository) {}
 
     async createUser(user: IUser) {
         try {
@@ -80,4 +78,5 @@ class UserService {
         }
     }
 }
+
 export default UserService;

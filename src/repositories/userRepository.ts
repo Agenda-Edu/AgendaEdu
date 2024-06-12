@@ -1,9 +1,11 @@
 
-import { PrismaClient, User } from '@prisma/client';
+import { User } from '@prisma/client';
 import { IUser } from "../interfaces/IUser";
 import bcrypt from 'bcrypt';
+import { prisma } from '../databse/db';
+import { Service } from 'typedi';
 
-const prisma = new PrismaClient();
+@Service()
 class UserRepository {
     async createUser(userData: IUser): Promise<IUser> {
 
@@ -38,7 +40,7 @@ class UserRepository {
                     },
                 } : undefined,
             },
-            include: { address: true, student: true }  // Inclui as relações no retorno
+            include: { address: true, student: true }
         });
 
         return user as IUser;
@@ -100,7 +102,7 @@ class UserRepository {
                     },
                 } : undefined,
                 student: data.students ? {
-                    deleteMany: {}, // Remove todos os estudantes atuais
+                    deleteMany: {}, 
                     create: data.students.map(student => ({
                         id: student.id,
                         name: student.name,
@@ -148,4 +150,5 @@ class UserRepository {
         return user;
     }
 }
+
 export default UserRepository;

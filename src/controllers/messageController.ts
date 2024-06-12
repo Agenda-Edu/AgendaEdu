@@ -1,13 +1,18 @@
 
 import { Request, Response } from 'express';
 import { IMessage } from '../interfaces/IMessage';
-import messageService from '../services/messageService';
+import { Inject, Service } from 'typedi';
+import MessageService from '../services/messageService';
 
+@Service()
 class MessageController {
+
+    constructor(@Inject(() => MessageService) private messageService: MessageService) {}
+
     async createMessage(req: Request, res: Response): Promise<Response> {
         try {
             const messageData: IMessage = req.body;
-            const createdMessage = await messageService.createMessage(messageData);
+            const createdMessage = await this.messageService.createMessage(messageData);
             return res.status(201).json(createdMessage);
         } catch (error) {
             return res.status(400).json({ success: false, message: "Internal Server Error" });
@@ -20,7 +25,7 @@ class MessageController {
             if (!id || typeof id !== 'string') {
                 return res.status(400).json({ error: 'ID is required and must be a string' });
             }
-            const message = await messageService.getMessageById(id);
+            const message = await this.messageService.getMessageById(id);
             if (!message) {
                 return res.status(404).json({ error: 'message not found' });
             }
@@ -33,7 +38,7 @@ class MessageController {
     async updateMessage(req: Request, res: Response) {
         try {
             const messageData: IMessage = req.body;
-            const updatedMessage = await messageService.updateMessage(messageData);
+            const updatedMessage = await this.messageService.updateMessage(messageData);
             res.json(updatedMessage);
         } catch (error) {
             console.error('Erro ao obter estudantes:', error);
@@ -47,7 +52,7 @@ class MessageController {
             if (!id || typeof id !== 'string') {
                 return res.status(400).json({ error: 'ID is required and must be a string' });
             }
-            const message = await messageService.deleteMessage(id);
+            const message = await this.messageService.deleteMessage(id);
             if (!message) {
                 return res.status(404).json({ error: 'student not found' });
             }
@@ -57,4 +62,4 @@ class MessageController {
         }
     }
 }
-export default new MessageController();
+export default MessageController;

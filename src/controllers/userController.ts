@@ -3,13 +3,12 @@
 import { Request, Response } from 'express';
 import { IUser } from "../interfaces/IUser";
 import UserService from '../services/userService';
+import { Inject, Service } from 'typedi';
 
+@Service()
 class UserController {
-    private userService: UserService;
 
-    constructor(userService: UserService) {
-        this.userService = userService;
-    }
+    constructor(@Inject(() => UserService) private userService: UserService) {}
 
     async createUser(req: Request, res: Response): Promise<Response> {
         try {
@@ -67,8 +66,6 @@ class UserController {
         } catch (error) {
             return res.status(400).json({ success: false, message: "Internal Server Error" });
         }
-
     }
 }
-
 export default UserController;

@@ -1,11 +1,15 @@
 import StudentRepository from "../repositories/studentRepository";
-import { IStudent as IStudent } from '../interfaces/IStudent';
+import { IStudent } from '../interfaces/IStudent';
 import { Student } from "@prisma/client";
-
+import { Inject, Service } from 'typedi';
+@Service()
 class StudentService {
+
+    constructor(@Inject(() => StudentRepository) private studentRepository: StudentRepository) {}
+
     async createStudent(userId: string, studentData: Omit<IStudent, 'id' | 'userId'>): Promise<Student> {
         try {
-            const student = await StudentRepository.createStudent(userId, studentData);
+            const student = await this.studentRepository.createStudent(userId, studentData);
             return student;
         } catch (error) {
             console.error("Error fetching users:", error);
@@ -13,9 +17,9 @@ class StudentService {
         }
     }
 
-    async getStudents() {
+    async getStudents(): Promise<IStudent[]> {
         try {
-            const student = await StudentRepository.getStudents();
+            const student = await this.studentRepository.getStudents();
             return student;
         } catch (error) {
             console.error("Error fetching users:", error);
@@ -25,7 +29,7 @@ class StudentService {
 
     async getStudentById(id: string) {
         try {
-            const student = await StudentRepository.getStudentById(id);
+            const student = await this.studentRepository.getStudentById(id);
             return student
         } catch (error) {
             console.error("Error fetching users:", error);
@@ -35,7 +39,7 @@ class StudentService {
 
     async updateStudent(student : IStudent) {
         try {
-            const updatedStudent = await StudentRepository.updateStudent(student);
+            const updatedStudent = await this.studentRepository.updateStudent(student);
             return updatedStudent;
         } catch (error) {
             console.error("Error fetching users:", error);
@@ -45,7 +49,7 @@ class StudentService {
 
     async deleteStudent(id: string) {
         try {
-            const student = await StudentRepository.deleteStudent(id);
+            const student = await this.studentRepository.deleteStudent(id);
             return student
         } catch (error) {
             console.error("Error fetching users:", error);
@@ -53,4 +57,4 @@ class StudentService {
         }
     }
 }
-export default new StudentService();
+export default StudentService;

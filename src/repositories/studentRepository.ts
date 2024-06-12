@@ -3,7 +3,9 @@
 import { Student } from '@prisma/client';
 import { prisma } from '../databse/db';
 import { IStudent as IStudent } from '../interfaces/IStudent';
+import { Service } from 'typedi';
 
+@Service()
 class StudentRepository {
 
     async createStudent(userId: string, studentData: Omit<IStudent, 'id' | 'userId'>) {
@@ -77,4 +79,4 @@ class StudentRepository {
         return student;
     }
 }
-export default new StudentRepository();
+export default StudentRepository;
