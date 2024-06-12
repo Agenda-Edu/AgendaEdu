@@ -1,15 +1,20 @@
 // src/controllers/userController.ts
 
 import { Request, Response } from 'express';
-import userService from '../services/userService';
 import { IUser } from "../interfaces/IUser";
+import UserService from '../services/userService';
 
 class UserController {
+    private userService: UserService;
+
+    constructor(userService: UserService) {
+        this.userService = userService;
+    }
 
     async createUser(req: Request, res: Response): Promise<Response> {
         try {
             const userData = req.body;
-            const user = await userService.createUser(userData);
+            const user = await this.userService.createUser(userData);
             return res.status(201).json(user);
         } catch (error) {
             return res.status(400).json({ success: false, message: "Internal Server Error" });
@@ -18,7 +23,7 @@ class UserController {
 
     async getUsers(req: Request, res: Response): Promise<Response> {
         try {
-            const users = await userService.getUsers();
+            const users = await this.userService.getUsers();
             return res.status(200).json(users);
         } catch (error) {
             return res.status(500).json({ success: false, message: "Internal Server Error" });
@@ -31,7 +36,7 @@ class UserController {
             if (!id || typeof id !== 'string') {
                 return res.status(400).json({ error: 'ID is required and must be a string' });
             }
-            const user = await userService.getUserById(id);
+            const user = await this.userService.getUserById(id);
             if (!user) {
                 return res.status(404).json({ error: 'User not found' });
             }
@@ -44,7 +49,7 @@ class UserController {
     async updateUser(req: Request, res: Response): Promise<Response> {
         try {
             const userData: IUser = req.body;
-            const user = await userService.updateUser(userData);
+            const user = await this.userService.updateUser(userData);
             return res.status(200).json(user);
         } catch (error) {
             return res.status(400).json({ success: false, message: "Internal Server Error" });
@@ -57,7 +62,7 @@ class UserController {
             if (!id || typeof id !== 'string') {
                 return res.status(400).json({ error: 'ID is required and must be a string' });
             }
-            const message = await userService.deleteUser(id);
+            const message = await this.userService.deleteUser(id);
             return res.status(200).json({ message });
         } catch (error) {
             return res.status(400).json({ success: false, message: "Internal Server Error" });
@@ -66,4 +71,4 @@ class UserController {
     }
 }
 
-export default new UserController();
+export default UserController;
