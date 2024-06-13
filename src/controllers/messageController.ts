@@ -2,7 +2,7 @@
 import { Request, Response } from 'express';
 import { IMessage } from '../interfaces/IMessage';
 import { Inject, Service } from 'typedi';
-import MessageService from '../services/messageService';
+import MessageService from '../services/MessageService';
 
 @Service()
 class MessageController {

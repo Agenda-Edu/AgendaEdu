@@ -1,44 +1,49 @@
-// src/routes/userRoutes.ts
+// src/routes.ts
 
-import { Router } from 'express';
-import UserController from './controllers/userController';
-import authRegister from './middlewares/AuthMiddleware';
-import StudentController from './controllers/studentController';
-import Container from './containers/container';
-import MessageController from './controllers/messageController';
-import AuthController from './controllers/authController';
+import { Router } from "./utils/Router";
+import express, { Request, Response } from 'express';
+import Container from "typedi";
+import UserController from "./controllers/UserController";
+import StudentController from "./controllers/StudentController";
+import MessageController from "./controllers/MessageController";
+import AuthController from "./controllers/AuthController";
+import 'dotenv/config';
 
-const router = Router();
+const app = express();
 
-// Obter instância do Controller do container
 const userController = Container.get(UserController);
-const studentController = Container.get(StudentController)
-const messageController = Container.get(MessageController)
-const authController = Container.get(AuthController)
-// //login
-router.post('/getToken', (req, res) => authController.getToken(req, res));
-router.post('/register', (req, res) => authController.createUser);
-router.post('/login', (req, res) => authController.login(req, res));
-router.post('/logout', (req, res) => authController.logout);
+const studentController = Container.get(StudentController);
+const messageController = Container.get(MessageController);
 
-// Users
-router.post('/createUser', (req, res) => userController.createUser(req, res));
-router.get('/listUsers', (req, res) => userController.getUsers(req, res));
-router.get('/getUser', (req, res) => userController.getUserById(req, res));
-router.delete('/deleteUser', (req, res) => userController.deleteUser(req, res));
-router.put('/updateUser', (req, res) => userController.updateUser(req, res));
+const baseRoute = process.env.BASE_ROUT_DEV;
 
-// Students
-router.post('/createStudent', (req, res) => studentController.createStudent(req, res));
-router.get('/listStudents', (req, res) => studentController.getStudents(req, res));
-router.get('/getStudent', (req, res) => studentController.getStudentById(req, res));
-router.put('/updateStudent', (req, res) => studentController.updateStudent(req, res));
-router.delete('/deleteStudent', (req, res) => studentController.deleteStudent(req, res));
+console.log('Router called');
+new Router(app, baseRoute)
 
-// Messages
-router.post('/createMessage', (req, res) => messageController.createMessage(req, res));
-router.get('/getMessage', (req, res) => messageController.getMessageById(req, res));
-router.put('/updateMessage', (req, res) => messageController.updateMessage(req, res));
-router.delete('/deleteMessage', (req, res) => messageController.deleteMessage(req, res));
+    .get('/health-status', (req: Request, res: Response) => {
+        res.send({ "message": "API Agenda-Edu está online " });
+    })
 
-export default router;
+    //.post('/getToken', AuthController.authenticate)
+    // .post('/register', AuthController.register)
+    .post('/login', AuthController.authenticate)
+    // .post('/logout', AuthController.logout)
+
+    .post('/createUser', (req: Request, res: Response) => userController.createUser(req, res))
+    .get('/listUsers', (req: Request, res: Response) => userController.getUsers(req, res))
+    .get('/getUser', (req: Request, res: Response) => userController.getUserById(req, res))
+    .delete('/deleteUser', (req: Request, res: Response) => userController.deleteUser(req, res))
+    .put('/updateUser', (req: Request, res: Response) => userController.updateUser(req, res))
+
+    .post('/createStudent', (req: Request, res: Response) => studentController.createStudent(req, res))
+    .get('/listStudents', (req: Request, res: Response) => studentController.getStudents(req, res))
+    .get('/getStudent', (req: Request, res: Response) => studentController.getStudentById(req, res))
+    .put('/updateStudent', (req: Request, res: Response) => studentController.updateStudent(req, res))
+    .delete('/deleteStudent', (req: Request, res: Response) => studentController.deleteStudent(req, res))
+
+    .post('/createMessage', (req: Request, res: Response) => messageController.createMessage(req, res))
+    .get('/getMessage', (req: Request, res: Response) => messageController.getMessageById(req, res))
+    .put('/updateMessage', (req: Request, res: Response) => messageController.updateMessage(req, res))
+    .delete('/deleteMessage', (req: Request, res: Response) => messageController.deleteMessage(req, res));
+
+export default app;

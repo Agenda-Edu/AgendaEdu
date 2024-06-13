@@ -1,7 +1,7 @@
 
 import { Inject, Service } from 'typedi';
 import { IMessage } from '../interfaces/IMessage';
-import MessageRepository from '../repositories/messageRepository';
+import MessageRepository from '../repositories/MessageRepository';
 @Service()
 class MessageService {
 

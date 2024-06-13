@@ -1,16 +1,15 @@
-import 'reflect-metadata';
+//import 'reflect-metadata';
 import { Container } from 'typedi';
-import UserController from "../controllers/userController";
-import UserRepository from "../repositories/userRepository";
-import UserService from "../services/userService";
-import StudentRepository from '../repositories/studentRepository';
-import StudentService from '../services/studentService';
-import StudentController from '../controllers/studentController';
-import MessageRepository from '../repositories/messageRepository';
-import MessageService from '../services/messageService';
-import MessageController from '../controllers/messageController';
-import AuthController from '../controllers/authController';
-import AuthService from '../services/authService';
+import UserController from "../controllers/UserController";
+import UserRepository from "../repositories/UserRepository";
+import StudentRepository from '../repositories/StudentRepository';
+import StudentService from '../services/StudentService';
+import StudentController from '../controllers/StudentController';
+import MessageRepository from '../repositories/MessageRepository';
+import MessageService from '../services/MessageService';
+import MessageController from '../controllers/MessageController';
+import UserService from '../services/UserService';
+import { Router } from '../utils/Router';
 
 //user
 Container.set(UserRepository, new UserRepository());
@@ -26,10 +25,6 @@ Container.set(StudentController, new StudentController(Container.get(StudentServ
 Container.set(MessageRepository, new MessageRepository());
 Container.set(MessageService, new MessageService(Container.get(MessageRepository)));
 Container.set(MessageController, new MessageController(Container.get(MessageService)));
-
-//Auth
-Container.set(AuthController, new AuthController(Container.get(AuthService)));
-
 
 
 export default Container;

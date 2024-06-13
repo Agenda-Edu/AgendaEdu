@@ -1,70 +1,41 @@
 import { NextFunction, Request, Response } from "express";
-const bcrypt = require('bcrypt');
-import 'dotenv/config';
-import jwt, { sign } from 'jsonwebtoken';
-import { IUser } from "../interfaces/IUser";
-import authService from "../services/authService";
-import { Inject, Service } from "typedi";
-import AuthService from "../services/authService";
-
-const SECRET = process.env.SECRET_KEY
+import { Service } from "typedi";
+import { prisma } from "../databse/Db";
+import { sign } from "jsonwebtoken";
+import { compare } from "bcrypt";
 
 @Service()
 class AuthController {
 
-    constructor(@Inject(() => AuthService) private authService: AuthService) {}
-    
-    async getToken(req: Request, res: Response) {
-
-        const user: IUser = req.body;
-        const { email, cpf, password } = user
-
-        if (!SECRET || typeof SECRET !== "string") {
-            throw new Error("Necessário passar a chave de segurança")
-        }
-
-        const token = jwt.sign({ email, cpf, password }, SECRET, { expiresIn: '1h' });
-
-        res.json({ token });
-    }
-
-    async createUser(req: Request, res: Response) {
-        try {
-            const user: IUser = req.body;
-            console.log(user)
-
-            if (!user.name || !user.password || !user.cpf) {
-                return res.status(400).send('Nome de usuário, senha e cpf são necessários.');
-            }
-            const newUser = await this.authService.createUser(user);
-            return res.status(201).json(newUser);
-        } catch (error) {
-            return res.status(400).json({ success: false, message: "Internal Server Error" });
-        }
-    }
-
-    async login(req: Request, res: Response) {
-
+    static async authenticate(req: Request, res: Response, next: NextFunction) {
+        console.log('Authenticate called'); 
+        
         const { email, password } = req.body;
 
-        const user = await this.authService.validateUser(email)
+        console.log(password)
+
+        const user = await prisma.user.findUnique({
+            where: {
+                email
+            }
+        });
 
         if (!user) {
-            return res.json({ error: "Usuário não encontrado" })
+            return res.json({ error: "Usuário não encontrado" });
         }
+        
+        const isValuePasssword = await compare(password, user.password);
 
-        const passwordMatch = await bcrypt.compare(password, user.password);
-        if (!passwordMatch) {
+        if (!isValuePasssword) {
             return res.json({ error: "Senha incorreta" });
         }
 
         const token = sign({ id: user.id, nome: user.name, email: user.email, role: user.role }, "secret", { expiresIn: "1h" });
 
-        return res.json({ user, token })
-
+        return res.json({ user, token });
     }
-
-    async logout(req: Request, res: Response, next: NextFunction) {
+    
+    static async logout(req: Request, res: Response, next: NextFunction) {
         try {
             res.clearCookie("jsonwebtoken");
             res.clearCookie("refreshtoken");

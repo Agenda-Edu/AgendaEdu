@@ -1,7 +1,7 @@
 
 
 import { Service } from 'typedi';
-import { prisma } from '../databse/db';
+import { prisma } from '../databse/Db';
 import { IMessage } from '../interfaces/IMessage';
 
 @Service()

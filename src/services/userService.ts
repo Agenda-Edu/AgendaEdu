@@ -1,14 +1,14 @@
 
 import { Inject, Service } from 'typedi';
-import { IUser } from '../interfaces/IUser';
-import UserRepository from '../repositories/userRepository';
+import { IUserObject } from '../interfaces/IUserObject';
+import UserRepository from '../repositories/UserRepository';
 
 @Service()
 class UserService {
 
     constructor(@Inject(() => UserRepository) private userRepository: UserRepository) {}
 
-    async createUser(user: IUser) {
+    async createUser(user: IUserObject) {
         try {
             const createdUser = await this.userRepository.createUser(user)
             return createdUser;
@@ -58,7 +58,7 @@ class UserService {
         }
     }
 
-    async updateUser(user: IUser) {
+    async updateUser(user: IUserObject) {
         try {
             const updatedUser = await this.userRepository.updateUser(user)
             return updatedUser;

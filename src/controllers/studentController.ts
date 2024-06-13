@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { IStudent } from '../interfaces/IStudent';
 import { Service, Inject } from 'typedi';
-import StudentService from '../services/studentService';
+import StudentService from '../services/StudentService';
 
 @Service()
 class StudentController {

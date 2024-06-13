@@ -1,5 +1,5 @@
 
-import { prisma } from './db';
+import { prisma } from './Db';
 class ConnectDB {
 
     async connection() {

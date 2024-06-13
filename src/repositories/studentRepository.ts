@@ -1,7 +1,7 @@
 
 
 import { Student } from '@prisma/client';
-import { prisma } from '../databse/db';
+import { prisma } from '../databse/Db';
 import { IStudent as IStudent } from '../interfaces/IStudent';
 import { Service } from 'typedi';
 

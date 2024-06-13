@@ -1,9 +1,9 @@
 // src/controllers/userController.ts
 
 import { Request, Response } from 'express';
-import { IUser } from "../interfaces/IUser";
-import UserService from '../services/userService';
+import { IUserObject } from "../interfaces/IUserObject";
 import { Inject, Service } from 'typedi';
+import UserService from '../services/UserService';
 
 @Service()
 class UserController {
@@ -47,7 +47,7 @@ class UserController {
 
     async updateUser(req: Request, res: Response): Promise<Response> {
         try {
-            const userData: IUser = req.body;
+            const userData: IUserObject = req.body;
             const user = await this.userService.updateUser(userData);
             return res.status(200).json(user);
         } catch (error) {

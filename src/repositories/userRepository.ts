@@ -1,14 +1,14 @@
 
 import { User } from '@prisma/client';
-import { IUser } from "../interfaces/IUser";
+import { IUserObject } from "../interfaces/IUserObject";
 import bcrypt from 'bcrypt';
-import { prisma } from '../databse/db';
+import { prisma } from '../databse/Db';
 import { Service } from 'typedi';
 
 @Service()
 class UserRepository {
-    async createUser(userData: IUser): Promise<IUser> {
-
+    async createUser(userData: IUserObject): Promise<IUserObject> {
+  
         const hashedPassword = await bcrypt.hash(userData.password, 10);
         const user = await prisma.user.create({
             data: {
@@ -43,7 +43,7 @@ class UserRepository {
             include: { address: true, student: true }
         });
 
-        return user as IUser;
+        return user as IUserObject;
     }
 
     async getUsers(): Promise<User[]> {
@@ -72,7 +72,7 @@ class UserRepository {
         });
     }
 
-    async updateUser(data: IUser): Promise<User | null> {
+    async updateUser(data: IUserObject): Promise<User | null> {
         const existingUser = await prisma.user.findFirst({
             where: { id: data.id },
             include: { address: true, student: true },
