@@ -2,6 +2,7 @@ import StudentRepository from "../repositories/studentRepository";
 import { IStudent } from '../interfaces/IStudent';
 import { Student } from "@prisma/client";
 import { Inject, Service } from 'typedi';
+
 @Service()
 class StudentService {
 
