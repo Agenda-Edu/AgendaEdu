@@ -1,71 +1,78 @@
-// import { NextFunction, Request, Response } from "express";
-// const bcrypt = require('bcrypt');
-// import 'dotenv/config';
-// import jwt, { sign } from 'jsonwebtoken';
-// import { IUser } from "../interfaces/IUser";
-// import authService from "../services/authService";
+import { NextFunction, Request, Response } from "express";
+const bcrypt = require('bcrypt');
+import 'dotenv/config';
+import jwt, { sign } from 'jsonwebtoken';
+import { IUser } from "../interfaces/IUser";
+import authService from "../services/authService";
+import { Inject, Service } from "typedi";
+import AuthService from "../services/authService";
 
-// const SECRET = process.env.SECRET_KEY
-// class AuthController {
-//     async getToken(req: Request, res: Response) {
+const SECRET = process.env.SECRET_KEY
 
-//         const user: IUser = req.body;
-//         const { email, cpf, password } = user
+@Service()
+class AuthController {
 
-//         if (!SECRET || typeof SECRET !== "string") {
-//             throw new Error("Necessário passar a chave de segurança")
-//         }
+    constructor(@Inject(() => AuthService) private authService: AuthService) {}
+    
+    async getToken(req: Request, res: Response) {
 
-//         const token = jwt.sign({ email, cpf, password }, SECRET, { expiresIn: '1h' });
+        const user: IUser = req.body;
+        const { email, cpf, password } = user
 
-//         res.json({ token });
-//     }
+        if (!SECRET || typeof SECRET !== "string") {
+            throw new Error("Necessário passar a chave de segurança")
+        }
 
-//     async createUser(req: Request, res: Response) {
-//         try {
-//             const user: IUser = req.body;
+        const token = jwt.sign({ email, cpf, password }, SECRET, { expiresIn: '1h' });
 
-//             if (!user.name || !user.password || !user.cpf) {
-//                 return res.status(400).send('Nome de usuário, senha e cpf são necessários.');
-//             }
-//             const newUser = await authService.createUser(user);
-//             return res.status(201).json(newUser);
-//         } catch (error) {
-//             return res.status(400).json({ success: false, message: "Internal Server Error" });
-//         }
-//     }
+        res.json({ token });
+    }
 
-//     async login(req: Request, res: Response) {
+    async createUser(req: Request, res: Response) {
+        try {
+            const user: IUser = req.body;
+            console.log(user)
 
-//         const { email, password } = req.body;
+            if (!user.name || !user.password || !user.cpf) {
+                return res.status(400).send('Nome de usuário, senha e cpf são necessários.');
+            }
+            const newUser = await this.authService.createUser(user);
+            return res.status(201).json(newUser);
+        } catch (error) {
+            return res.status(400).json({ success: false, message: "Internal Server Error" });
+        }
+    }
 
-//         const user = await authService.validateUser(email)
+    async login(req: Request, res: Response) {
 
-//         if (!user) {
-//             return res.json({ error: "Usuário não encontrado" })
-//         }
+        const { email, password } = req.body;
 
-//         const passwordMatch = await bcrypt.compare(password, user.password);
-//         if (!passwordMatch) {
-//             return res.json({ error: "Senha incorreta" });
-//         }
+        const user = await this.authService.validateUser(email)
 
-//         const token = sign({ id: user.id, nome: user.name, email: user.email, role: user.role }, "secret", { expiresIn: "1h" });
+        if (!user) {
+            return res.json({ error: "Usuário não encontrado" })
+        }
 
-//         return res.json({ user, token })
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if (!passwordMatch) {
+            return res.json({ error: "Senha incorreta" });
+        }
 
-//     }
+        const token = sign({ id: user.id, nome: user.name, email: user.email, role: user.role }, "secret", { expiresIn: "1h" });
 
-//     async logout(req: Request, res: Response, next: NextFunction) {
-//         try {
-//             res.clearCookie("jsonwebtoken");
-//             res.clearCookie("refreshtoken");
-//             return res.sendStatus(200);
-//         } catch (error) {
-//             next(error);
-//         }
-//     }
+        return res.json({ user, token })
 
-// }
+    }
 
-// export default new AuthController();
+    async logout(req: Request, res: Response, next: NextFunction) {
+        try {
+            res.clearCookie("jsonwebtoken");
+            res.clearCookie("refreshtoken");
+            return res.sendStatus(200);
+        } catch (error) {
+            next(error);
+        }
+    }
+}
+
+export default AuthController;

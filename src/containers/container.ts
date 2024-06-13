@@ -9,6 +9,8 @@ import StudentController from '../controllers/studentController';
 import MessageRepository from '../repositories/messageRepository';
 import MessageService from '../services/messageService';
 import MessageController from '../controllers/messageController';
+import AuthController from '../controllers/authController';
+import AuthService from '../services/authService';
 
 //user
 Container.set(UserRepository, new UserRepository());
@@ -24,5 +26,10 @@ Container.set(StudentController, new StudentController(Container.get(StudentServ
 Container.set(MessageRepository, new MessageRepository());
 Container.set(MessageService, new MessageService(Container.get(MessageRepository)));
 Container.set(MessageController, new MessageController(Container.get(MessageService)));
+
+//Auth
+Container.set(AuthController, new AuthController(Container.get(AuthService)));
+
+
 
 export default Container;

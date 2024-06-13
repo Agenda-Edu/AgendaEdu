@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 const SECRET = process.env.SECRET_KEY
 
 export default function authRegister(req: Request, res: Response, next: NextFunction) {
-
+    console.log(req)
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
 

@@ -1,26 +1,25 @@
 // src/routes/userRoutes.ts
 
-import { Router } from 'express';[
-    
-]
+import { Router } from 'express';
 import UserController from './controllers/userController';
-//import authController from './controllers/authController';
 import authRegister from './middlewares/AuthMiddleware';
 import StudentController from './controllers/studentController';
 import Container from './containers/container';
 import MessageController from './controllers/messageController';
+import AuthController from './controllers/authController';
 
 const router = Router();
 
 // Obter instância do Controller do container
-const userController = Container.get(UserController); 
+const userController = Container.get(UserController);
 const studentController = Container.get(StudentController)
 const messageController = Container.get(MessageController)
+const authController = Container.get(AuthController)
 // //login
-// router.post('/getToken', authController.getToken);
-// router.post('/register', authRegister, authController.createUser);
-// router.post('/login', authController.login);
-// router.post('/logout', authController.logout);
+router.post('/getToken', (req, res) => authController.getToken(req, res));
+router.post('/register', (req, res) => authController.createUser);
+router.post('/login', (req, res) => authController.login(req, res));
+router.post('/logout', (req, res) => authController.logout);
 
 // Users
 router.post('/createUser', (req, res) => userController.createUser(req, res));
